@@ -1,0 +1,17 @@
+{
+  "name": "SafeStep Cyber Defense",
+  "short_name": "SafeStep",
+  "start_url": "./index.html",
+  "display": "fullscreen",
+  "orientation": "portrait-primary",
+  "background_color": "#0A0A0F",
+  "theme_color": "#00FF88",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2092/2092663.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<title>SafeStep // Cyber Defense Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Orbitron:wght@700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css">
+<link rel="manifest" href="manifest.json">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js');
+  }
+</script>
+</head>
+<body>
+
+
+
+<header class="appbar">
+  <div class="wrap appbar-inner">
+    <button class="brand" onclick="goHome()" aria-label="Home">
+      <span class="mk" aria-hidden="true">⬡</span>
+      <span><b>SAFESTEP</b><br><span class="sub">CYBER DEFENSE INITIATIVE</span></span>
+    </button>
+    <span class="spacer"></span>
+    <span class="link-stat" id="modeLabel"><span class="dot"></span>LINK SECURE</span>
+    <span class="progress-chip" id="progChip">OPS <b id="overallText">00/15</b></span>
+    <button class="icon-btn" id="soundBtn" onclick="toggleSound()" title="Sound">🔊</button>
+    <button class="icon-btn" onclick="openHelp()" title="Help">?</button>
+    <button class="icon-btn" onclick="resetProgress()" title="Restart">⟲</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============== MODE SELECTOR ============== -->
+
+<!-- ============== GENERAL HQ ============== -->
+<section id="screen-gen-home" class="screen active">
+  <div class="hq">
+    <div class="hud hq-hero">
+      <div class="eye">// SECURE CHANNEL ESTABLISHED</div>
+      <h1>Defend the <em>Everyday Network</em></h1>
+      <p class="lede">Operator, you're free to roam. 15 missions of real cybersecurity action. Master passwords, phishing, networks, ransomware, and breach response. No cages here.</p>
+      <div class="comms js-skip">
+        <div class="av" id="homeAvatar"></div>
+        <div class="cbody">
+          <div class="chead" id="homeCommsHead">HANDLER :: ECHO</div>
+          <div class="cline" id="homeCommsLine"></div>
+        </div>
+      </div>
+      <div class="hq-cta">
+        <button class="btn btn-primary" onclick="startJourney()">▸ Deploy to first mission</button>
+        <button class="btn" onclick="document.getElementById('roster').scrollIntoView({behavior:'smooth'})">View roster</button>
+      </div>
+      <div class="hq-stats">
+        <div class="hq-stat"><b>15</b><span>Missions</span></div>
+        <div class="hq-stat"><b>4</b><span>Mini-games</span></div>
+        <div class="hq-stat"><b id="homeStars">0</b><span>Clearance stars</span></div>
+      </div>
+    </div>
+    <div class="roster-head" id="roster">
+      <h2>Full Mission Roster</h2>
+      <span class="rl">// CLEAR A MISSION TO UNLOCK THE NEXT</span>
+    </div>
+    <div class="missions" id="missionGrid"></div>
+  </div>
+</section>
+
+<!-- ============== CAGE HQ ============== -->
+
+<!-- ============== FACILITY MAP (Cage Mode - movable character) ============== -->
+
+
+<!-- ============== BRIEF ============== -->
+<section id="screen-brief" class="screen">
+  <div class="brief-wrap">
+    <button class="btn" onclick="goHome()" style="margin-bottom:12px;">← Back</button>
+    <div class="hud">
+      <div class="brief-bar">
+        <span class="bt" id="briefBarTitle">// MISSION BRIEF</span>
+        <span class="bn" id="briefBarNo">MISSION 01 / 15</span>
+      </div>
+      <div class="brief-body">
+        <div class="brief-icon" id="briefIcon">🔑</div>
+        <div class="brief-codename" id="briefCodename">CODENAME ::</div>
+        <h2 id="briefTitle">Mission</h2>
+        <div class="comms js-skip" style="margin-top:14px;">
+          <div class="av" id="briefAvatar"></div>
+          <div class="cbody">
+            <div class="chead" id="briefCommsHead">HANDLER :: ECHO</div>
+            <div class="cline" id="briefCommsLine"></div>
+          </div>
+        </div>
+        <div class="objgrid">
+          <div class="objbox"><div class="ol">Game Mode</div><div class="ov" id="briefMode">—</div></div>
+          <div class="objbox"><div class="ol">Threat Tier</div><div class="ov" id="briefTier">—</div></div>
+          <div class="objbox"><div class="ol">Objective</div><div class="ov" id="briefObj" style="font-size:.84rem;">—</div></div>
+        </div>
+        <div class="how-to"><div class="ht">// HOW TO PLAY</div><p id="briefHow">—</p></div>
+        <div class="brief-foot">
+          <span class="hint">// Ready to engage?</span>
+          <button class="btn btn-primary" onclick="deploy()">▸ Deploy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== GAME SCREEN ============== -->
+<section id="screen-game" class="screen">
+  <div class="game-wrap">
+    <button class="btn" onclick="confirmExit()" style="margin-bottom:8px;">← Abort mission</button>
+    <div class="game-bar">
+      <span class="si" id="gameIcon">🔑</span>
+      <h2 id="gameTitle">Mission</h2>
+      <span class="ss" id="gameSub">TIER 1</span>
+    </div>
+    <div class="game-hud">
+      <span class="hud-pill score">SCORE <b id="hudScore">0</b></span>
+      <span class="hud-pill" id="hudProgress">0 / 0</span>
+      <span class="hud-pill lives" id="hudLives" style="display:none;">MISSES <b><span id="hudMisses">0</span> / <span id="hudMaxMisses">3</span></b></span>
+      <span class="hud-pill timer" id="hudTimer" style="display:none;">TIMER <b id="hudTimerVal">--</b></span>
+    </div>
+    <div class="hud stage">
+      <div class="stage-body">
+        <div class="comms js-skip" style="margin-bottom:14px;" id="gameComms">
+          <div class="av" id="gameAvatar"></div>
+          <div class="cbody">
+            <div class="chead" id="gameCommsHead">HANDLER :: ECHO</div>
+            <div class="cline" id="gameCommsLine"></div>
+          </div>
+        </div>
+        <div id="gameArea"></div>
+        <div class="stage-foot">
+          <span class="hint" id="gameHint">// Engage the threat.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== REPORT ============== -->
+<section id="screen-complete" class="screen">
+  <div class="report">
+    <div class="spark-layer" id="repSparkles"></div>
+    <div class="rank-badge"><span class="ri" id="doneBadge">🎖️</span></div>
+    <div class="status" id="repStatus">// MISSION CLEARED</div>
+    <h2 id="repRating">Mission Cleared</h2>
+    <div class="big-stars" id="doneStars"></div>
+    <div class="report-card hud">
+      <div class="report-bar">
+        <span class="rb-t">// AFTER-ACTION REPORT</span>
+        <span class="rb-n" id="repMissionLine">M-01 · MISSION</span>
+      </div>
+      <div class="report-body">
+        <div class="report-metrics" id="repMetrics"></div>
+        <div class="comms" style="margin-top:14px;">
+          <div class="av" id="doneAvatar"></div>
+          <div class="cbody">
+            <div class="chead" id="doneCommsHead">HANDLER :: ECHO // ASSESSMENT</div>
+            <div class="cline" id="repAssessLine"></div>
+          </div>
+        </div>
+        <div class="report-notes">
+          <div class="note note-good"><div class="nh">✓ STRENGTHS</div><div id="repStrength"></div></div>
+          <div class="note note-watch"><div class="nh">⚠ WATCH</div><div id="repWatch"></div></div>
+        </div>
+        <div class="report-intel"><div class="ri-h">// KEY INTEL — REMEMBER THIS</div><p id="repIntel"></p></div>
+      </div>
+    </div>
+    <div class="done-cta">
+      <button class="btn" onclick="replayMission()">↻ Re-run mission</button>
+      <button class="btn btn-primary" id="doneNextBtn">▸ Next mission</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============== UPGRADE SHOP (Cage Mode) ============== -->
+
+<!-- ============== CLEARANCE ============== -->
+<section id="screen-cert" class="screen">
+  <div class="clr-wrap">
+    <div class="hud clr">
+      <div class="seal">🛡️</div>
+      <div class="ct">SAFESTEP // CYBER DEFENSE INITIATIVE</div>
+      <h2 id="clrTitle">Security Clearance Granted</h2>
+      <div class="rank" id="clrRank">CYBER OPERATOR</div>
+      <div class="grade" id="clrGrade">A</div>
+      <p id="clrSummary"></p>
+      <div class="clr-list" id="clrList"></div>
+      <div class="done-cta">
+        <button class="btn" onclick="goHome()">← Return to HQ</button>
+        <button class="btn btn-primary" onclick="resetProgress()">↻ New deployment</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<div class="modal" id="helpModal">
+  <div class="hud modal-card">
+    <h3>Field Manual</h3>
+    <div class="ml">// HOW THE GAME WORKS</div>
+    <div class="help-row"><span class="hn">HOW TO PLAY</span><span>Explore 15 missions. Unlock checkpoints, play any order. Each mission is a cyber-defense challenge — solve it to earn stars.</span></div>
+    <div class="help-row"><span class="hn">STARS</span><span>3 stars = flawless, based on accuracy. Review intel after each mission to learn the lesson.</span></div>
+    <div class="divider"></div>
+    <div class="help-row" style="color:var(--text-faint);"><span class="hn">TIP</span><span>Tap handler comms to skip text. Use 🔊 to toggle sound. Press ? again to close this.</span></div>
+    <button class="btn btn-primary" style="width:100%;margin-top:4px;" onclick="closeHelp()">▸ Resume</button>
+  </div>
+</div>
+
+<footer>SAFESTEP // CYBER DEFENSE INITIATIVE · INTERACTIVE TRAINING · LOCKED & LOADED</footer>
+
+<script src="script.js" defer></script>
+</body>
