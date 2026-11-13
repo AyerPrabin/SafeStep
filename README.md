@@ -2,7 +2,7 @@
 
 A browser-based cybersecurity training game. 15 missions teach everyday digital-safety skills through short, hands-on mini-games instead of reading text — no build step, no backend, just static HTML/CSS/JS.
 
-Play it live via GitHub Pages: enable Pages on this repo (Settings → Pages → deploy from `main`) or just open `index.html`.
+**Play it:** [ayerprabin.github.io/SafeStep](https://ayerprabin.github.io/SafeStep/) (or open `index.html` locally).
 
 ## What's inside
 
